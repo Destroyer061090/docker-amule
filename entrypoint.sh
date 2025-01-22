@@ -67,6 +67,10 @@ mod_auto_share() {
 
 AMULE_UID=${PUID:-1000}
 AMULE_GID=${PGID:-1000}
+TCP_PORT=${TCP_PORT:-4662}
+UDP_PORT=${UDP_PORT:-4672}
+WEB_PORT=${WEB_PORT:-4711}
+WEB_ECPORT=${WEB_PORT:-4712}
 
 AMULE_INCOMING=/incoming
 AMULE_TEMP=/temp
@@ -74,6 +78,8 @@ AMULE_HOME=/home/amule/.aMule
 AMULE_CONF=${AMULE_HOME}/amule.conf
 REMOTE_CONF=${AMULE_HOME}/remote.conf
 KAD_NODES_DAT_URL="http://upd.emule-security.org/nodes.dat"
+
+
 
 # Create configuration files if don't exist
 AMULE_GROUP="amule"
@@ -248,7 +254,7 @@ ProxyPassword=
 UseSrcSeeds=0
 AcceptExternalConnections=1
 ECAddress=
-ECPort=4712
+ECPort=${WEB_ECPORT}
 ECPassword=${AMULE_GUI_ENCODED_PWD}
 UPnPECEnabled=0
 ShowProgressBar=1
@@ -261,7 +267,7 @@ TransmitOnlyUploadingClients=0
 Enabled=1
 Password=${AMULE_WEBUI_ENCODED_PWD}
 PasswordLow=
-Port=4711
+Port=${WEB_PORT}
 WebUPnPTCPPort=50001
 UPnPWebServerEnabled=0
 UseGzip=1
@@ -323,10 +329,10 @@ if [ ! -f ${REMOTE_CONF} ]; then
 Locale=
 [EC]
 Host=localhost
-Port=4712
+Port=${WEB_ECPORT}
 Password=${AMULE_GUI_ENCODED_PWD}
 [Webserver]
-Port=4711
+Port=${WEB_PORT}
 UPnPWebServerEnabled=0
 UPnPTCPPort=50001
 Template=AmuleWebUI-Reloaded
