@@ -1,4 +1,4 @@
-FROM alpine:edge as builder
+FROM alpine:3.22.2 AS builder
 
 WORKDIR /tmp
 
@@ -6,14 +6,14 @@ WORKDIR /tmp
 RUN apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing amule amule-doc
 
 # Install a modern Web UI
-RUN AMULEWEBUI_RELOADED_COMMIT=1a85ead05e26202de8d98af4248189a869a24795 && \
+RUN AMULEWEBUI_RELOADED_COMMIT=704ae1c861561513c010353320bb1ca9f0f2b9fe && \
     cd /usr/share/amule/webserver && \
     wget -O AmuleWebUI-Reloaded.zip https://github.com/MatteoRagni/AmuleWebUI-Reloaded/archive/${AMULEWEBUI_RELOADED_COMMIT}.zip && \
     unzip AmuleWebUI-Reloaded.zip && \
     mv AmuleWebUI-Reloaded-* AmuleWebUI-Reloaded && \
     rm -rf AmuleWebUI-Reloaded.zip AmuleWebUI-Reloaded/doc-images AmuleWebUI-Reloaded/README.md
 
-FROM alpine:edge
+FROM alpine:3.22.2
 
 LABEL maintainer="ngosang@hotmail.es"
 
@@ -46,6 +46,10 @@ ENTRYPOINT ["/home/amule/entrypoint.sh"]
 #
 # => Build Docker image
 # docker build -t ngosang/amule:test .
+#
+# => Build multi-arch Docker image
+# docker buildx create --use
+# docker buildx build -t ngosang/amule:test --platform linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/riscv64,linux/s390x .
 #
 # => Reference Alpine packages
 # https://git.alpinelinux.org/aports/tree/testing/amule
